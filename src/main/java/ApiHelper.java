@@ -1,12 +1,12 @@
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
 import org.apache.commons.io.FileUtils;
-import org.junit.runner.RunWith;
 import org.testng.annotations.DataProvider;
 
 import java.io.File;
@@ -17,7 +17,6 @@ import java.util.Properties;
 
 import static io.restassured.RestAssured.given;
 
-@RunWith(DataProviderRunner.class)
 public class ApiHelper {
 
     static String baseUrl = "http://bpdts-test-app-v2.herokuapp.com";
@@ -89,14 +88,24 @@ public class ApiHelper {
 
     }
 
+    public static ResponseSpecification cxpResponseSpec() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(200)
+                .expectContentType(ContentType.JSON)
+                .expectHeader("someHeader", "value")
+                .build();
+    }
+
     public static Response getFieldValues(String nino, String fieldIds) throws IOException {
-        RestAssured.requestSpecification = cxpRequestSpec();
+//        RestAssured.requestSpecification = cxpRequestSpec();
         return given()
+                .spec(cxpRequestSpec())
                 .pathParam("nino", nino)
                 .queryParam("fieldIds", fieldIds)
                 .when()
                 .get("/{nino}")
                 .then().log().all()
+                .spec(cxpResponseSpec())
                 .extract().response();
     }
 
