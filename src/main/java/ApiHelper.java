@@ -1,3 +1,4 @@
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -5,18 +6,18 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.io.FileUtils;
+import org.junit.runner.RunWith;
+import org.testng.annotations.DataProvider;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Properties;
 
 import static io.restassured.RestAssured.given;
 
+@RunWith(DataProviderRunner.class)
 public class ApiHelper {
 
     static String baseUrl = "http://bpdts-test-app-v2.herokuapp.com";
@@ -116,6 +117,15 @@ public class ApiHelper {
             System.out.println("Exception: " + e);
         }
         return result;
+    }
+
+    @DataProvider(name = "SampleTestData")
+    public static Object[][] loadTestData() {
+        return new Object[][]{
+                {"nino1", "1,3,4"},
+                {"nino2", "1,2"},
+                {"nino3", "1,2,3"},
+        };
     }
 }
 

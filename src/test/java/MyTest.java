@@ -1,19 +1,18 @@
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-import javax.management.StandardEmitterMBean;
 import java.io.IOException;
 
-import static io.restassured.RestAssured.given;
 
+//@RunWith(DataProviderRunner.class)
 public class MyTest {
 
 
-    @Test
-    public void myCxptest() throws IOException {
-        String nino = ApiHelper.getPropValues("nino");
-        String fieldIds = ApiHelper.getPropValues("fieldId3");
+    @Test(dataProvider = "SampleTestData", dataProviderClass = ApiHelper.class)
+//    @UseDataProvider("loadTestData")
+    public void myCxptest(String nino, String fieldIds) throws IOException {
+//        String nino = ApiHelper.getPropValues("nino");
+//        String fieldIds = ApiHelper.getPropValues("fieldId3");
         Response response = ApiHelper.getFieldValues(nino, fieldIds);
 
     }
