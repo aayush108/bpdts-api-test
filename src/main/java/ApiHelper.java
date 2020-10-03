@@ -82,7 +82,6 @@ public class ApiHelper {
                 .setBasePath("challenge/v0")
                 .addHeader("myHeader", "testHeader")
                 .setContentType(ContentType.JSON)
-//                .addQueryParam("fieldIds", )
                 .log(LogDetail.ALL)
                 .build();
 
