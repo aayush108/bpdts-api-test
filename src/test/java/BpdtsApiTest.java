@@ -1,11 +1,10 @@
-import com.relevantcodes.extentreports.LogStatus;
+import com.aventstack.extentreports.Status;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -26,7 +25,7 @@ public class BpdtsApiTest extends ExtentReportListener {
         assertThat(response.statusCode()).as("Verify response code is 200").isEqualTo(HttpStatus.SC_OK);
         assertThat(list.size()).as("Verify that the response is an array with size 0").isEqualTo(0);
 
-        test.log(LogStatus.INFO, "Response body is", response.getBody().prettyPrint());
+        test.log(Status.INFO, "Response body is: " + response.getBody().prettyPrint());
     }
 
     @Test
@@ -38,8 +37,7 @@ public class BpdtsApiTest extends ExtentReportListener {
 //        Assertions.assertThat(expectedBody).as("Verify the response body").isEqualTo(actualBody);
         JSONAssert.assertEquals(expectedBody, actualBody, JSONCompareMode.STRICT);
 
-//        test.log(LogStatus.INFO,"Strating test execution");
-        test.log(LogStatus.INFO, response.getBody().prettyPrint());
+        test.log(Status.INFO, response.getBody().prettyPrint());
     }
 
 
@@ -53,7 +51,7 @@ public class BpdtsApiTest extends ExtentReportListener {
         Assertions.assertThat((String) response.path("email")).as("Verify email").isEqualTo("ahighnam3e@wix.com");
         Assertions.assertThat((String) response.path("city")).as("Verify city").isEqualTo("Merkezköy");
 
-        test.log(LogStatus.INFO, "Response body is", response.getBody().prettyPrint());
+        test.log(Status.INFO, "Response body is: " + response.getBody().prettyPrint());
     }
 
 
@@ -64,7 +62,7 @@ public class BpdtsApiTest extends ExtentReportListener {
 
         assertThat(response.statusCode()).as("Verify response code is 404").isEqualTo(HttpStatus.SC_NOT_FOUND);
         Assertions.assertThat((String) response.path("message")).as("Verify error message").isEqualTo(expectedMessage);
-        test.log(LogStatus.INFO, "Response body is", response.getBody().prettyPrint());
+        test.log(Status.INFO, "Response body is: " + response.getBody().prettyPrint());
 
     }
 
@@ -81,7 +79,7 @@ public class BpdtsApiTest extends ExtentReportListener {
         Assertions.assertThat((String)response.path("[1].email")).as("Verify email of the 2nd user").isEqualTo("bhalgarth1@timesonline.co.uk");
         Assertions.assertThat((String)response.path("[1].ip_address")).as("Verify IP address of the 2nd user").isEqualTo("4.185.73.82");
 
-        test.log(LogStatus.INFO, "Response body is", response.getBody().prettyPrint());
+        test.log(Status.INFO, "Response body is: " + response.getBody().prettyPrint());
     }
 
 }
